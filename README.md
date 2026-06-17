@@ -102,7 +102,21 @@ CALCULATE(
     'HR_Data'[overtime] = "Yes"
 )
 ```
+## DAX Measures
 
+All measures are stored in a dedicated `_Measures` table and 
+numbered for easy navigation.
+
+| # | Measure | Description |
+|---|---|---|
+| 01 | Total Employees | Count of all employees in the dataset |
+| 02 | Total Attritions | Count of employees who left the company |
+| 03 | Attrition Rate | Percentage of employees who left |
+| 04 | Total Attrition Cost | Sum of all attrition-related costs |
+| 05 | Avg Monthly Income | Average monthly salary across all employees |
+| 06 | Avg Performance Rating | Average performance rating (1–4 scale) |
+| 07 | Avg Job Satisfaction | Average job satisfaction score (1–4 scale) |
+| 08 | Overtime Attrition Rate | Attrition rate for employees working overtime |
 ---
 
 ## Dashboard Pages
