@@ -102,7 +102,7 @@ CALCULATE(
     'HR_Data'[overtime] = "Yes"
 )
 ```
-# DAX Measures
+'_Measures'
 
 All measures are stored in a dedicated `_Measures` table and 
 numbered for easy navigation.
