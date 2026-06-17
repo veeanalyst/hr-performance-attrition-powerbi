@@ -118,7 +118,7 @@ numbered for easy navigation.
 | 07 | Avg Job Satisfaction | Average job satisfaction score (1–4 scale) |
 | 08 | Overtime Attrition Rate | Attrition rate for employees working overtime |
 ---
-![DAX Measures](screenshots_dax_measures.png)
+![DAX Measures](screenshots/screenshots_dax_measures.png)
 
 ## Dashboard Pages
 The Power BI report contains the following pages:
