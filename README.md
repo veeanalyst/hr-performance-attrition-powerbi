@@ -1,2 +1,2 @@
 # hr-performance-attrition-powerbi
-HR employee performance analysis using Power Query and Excel — cleaning, pivot tables, and dashboard.
+HR employee attrition analysis using Power BI — 50,020 rows, interactive dashboard and KPI reporting.
