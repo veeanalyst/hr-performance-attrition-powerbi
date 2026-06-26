@@ -76,34 +76,39 @@ The raw dataset was cleaned in Power Query before loading into Power BI.
 Key measures created in Power BI to support the analysis:
 
 ```dax
--- Total Employees
-Total Employees = COUNTROWS('HR_Data')
+-- 01 Total Employees
+Total Employees = COUNTROWS('hr_attrition')
 
--- Attrition Rate
+02 Total Attritions = 
+COUNTROWS(
+    FILTER('hr_attrition', 'hr_attrition'[attrition] = "Yes")
+)
+
+-- 03 Attrition Rate
 Attrition Rate = 
 DIVIDE(
-    COUNTROWS(FILTER('HR_Data', 'HR_Data'[attrition] = "Yes")),
-    COUNTROWS('HR_Data'),
+    COUNTROWS(FILTER('hr_attrition', 'hr_attrition'[attrition] = "Yes")),
+    COUNTROWS('hr_attrition'),
     0
 )
 
--- Total Attrition Cost
-Total Attrition Cost = SUM('HR_Data'[attrition_cost])
+--04 Total Attrition Cost
+Total Attrition Cost = SUM('hr_attrition'[attrition_cost])
 
--- Average Monthly Income
-Avg Monthly Income = AVERAGE('HR_Data'[monthly_income])
+-- 05 Average Monthly Income
+Avg Monthly Income = AVERAGE('hr_attrition'[monthly_income])
 
--- Average Performance Rating
-Avg Performance Rating = AVERAGE('HR_Data'[performance_rating])
+-- 06 Average Performance Rating
+Avg Performance Rating = AVERAGE('hr_attrition'[performance_rating])
 
--- Average Job Satisfaction
-Avg Job Satisfaction = AVERAGE('HR_Data'[job_satisfaction])
+-- 07 Average Job Satisfaction
+Avg Job Satisfaction = AVERAGE('hr_attrition'[job_satisfaction])
 
--- Overtime Attrition Rate
+-- 08 Overtime Attrition Rate
 Overtime Attrition Rate = 
 CALCULATE(
     [Attrition Rate],
-    'HR_Data'[overtime] = "Yes"
+    'hr_attrition'[overtime] = "Yes"
 )
 ```
 `_Measures`
