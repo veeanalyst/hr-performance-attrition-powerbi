@@ -65,6 +65,7 @@ The raw dataset was cleaned in Power Query before loading into Power BI.
 | Removed duplicates | Based on `employee_id` column |
 | Replaced values | Based on 'attrition' column e.g 0=No, 1=Yes, Stayed=No, Left=Yes |
 | Removed Outlier values | Based on 'Age' and 'monthly_income' columns e.g 0, 999 '-200', '-3000' | 
+| Data type | Changed the columns to the correct data type |
 
 **Original dataset:** 50,020 rows  
 **Clean dataset:** 49,934 rows  
