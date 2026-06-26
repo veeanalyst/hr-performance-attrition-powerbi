@@ -57,14 +57,18 @@ The raw dataset was cleaned in Power Query before loading into Power BI.
 | Step | Transformation Applied |
 |---|---|
 | Removed empty rows | Deleted rows where all fields were blank |
-| Removed duplicates | Based on `employee_id` column |
+| Removed leading and trailing whitespaces | Formatted all the cells in each column using TRIM |
+| Removed invalid employee records | e.g 'employee_id' 12345
 | Replaced values | Fixed embedded spaces e.g. `E M P00015` → `EMP00015` |
 | Filtered invalid records | Removed rows with inconsistent or corrupt data |
 | Validated employee_id | Kept only records with exactly 8 characters |
+| Removed duplicates | Based on `employee_id` column |
+| Replaced values | Based on 'attrition' column e.g 0=No, 1=Yes, Stayed=No, Left=Yes |
+| Removed Outlier values | Based on 'Age' and 'monthly_income' columns e.g 0, 999 '-200', '-3000' | 
 
 **Original dataset:** 50,020 rows  
-**Clean dataset:** 49,977 rows  
-**Records removed:** 43  
+**Clean dataset:** 49,934 rows  
+**Records removed:** 86  
 
 ---
 
