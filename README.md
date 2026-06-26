@@ -79,7 +79,7 @@ Key measures created in Power BI to support the analysis:
 -- 01 Total Employees
 Total Employees = COUNTROWS('hr_attrition')
 
-02 Total Attritions = 
+-- 02 Total Attritions = 
 COUNTROWS(
     FILTER('hr_attrition', 'hr_attrition'[attrition] = "Yes")
 )
