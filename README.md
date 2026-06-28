@@ -146,7 +146,7 @@ The Power BI report contains the following pages:
 *Screenshots will be added once the dashboard is complete.*
 
 <!-- Once dashboard is built, replace the line above with:
-![Overview](screenshots_overview.png)
+![Overview](screenshots/screenshots_overview.png)
 ![Attrition Analysis](screenshots/attrition_analysis.png)
 -->
 
