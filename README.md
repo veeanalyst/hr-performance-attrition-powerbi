@@ -151,6 +151,7 @@ The Power BI report contains the following pages:
 
 ![Attrition Analysis](screenshots/screenshots_attrition_analysis.png)
 
+![Performance & Satisfaction](screenshots/screenshots_performance_satisfaction.png)
 
 ---
 
