@@ -66,6 +66,10 @@ The raw dataset was cleaned in Power Query before loading into Power BI.
 | Replaced values | Based on 'attrition' column e.g 0=No, 1=Yes, Stayed=No, Left=Yes |
 | Removed Outlier values | Based on 'Age' and 'monthly_income' columns e.g 0, 999 '-200', '-3000' | 
 | Data type | Changed the columns to the correct data type |
+...
+- Identified and corrected inconsistent `business_travel` category values 
+  during analysis (discovered when attrition rates appeared abnormally high 
+  for one category — root cause was inconsistent text formatting)
 
 **Original dataset:** 50,020 rows  
 **Clean dataset:** 49,934 rows  
@@ -143,25 +147,22 @@ The Power BI report contains the following pages:
 ---
 
 ## Dashboard Preview
-*Screenshots will be added once the dashboard is complete.*
-
-<!-- Once dashboard is built, replace the line above with:
-
 ![Overview](screenshots/screenshots_overview.png)
 
-![Attrition Analysis](screenshots/attrition_analysis.png)
--->
+![Attrition Analysis](screenshots/screenshots_attrition_analysis.png)
+
 
 ---
 
 ## Key Findings
-*To be updated after analysis is complete.*
-
 - Finding 1
-- Attrition rate is fairly consistent across departments and job roles (~15-16%), 
-  suggesting attrition is not isolated to specific teams.
-- 82.55% of all attritions came from employees who worked overtime — 
-  by far the strongest predictor of attrition in this dataset.
+  - Attrition rate is consistent across department, job role, business travel, 
+  and marital status (~14-17% in every category) — attrition is not isolated 
+  to specific teams or groups.
+- Overtime is the dominant driver of attrition: 82.55% of all employees who 
+  left were working overtime, compared to only 17.45% who weren't.
+- This suggests overtime — not job role, department, or personal 
+  circumstances — is the strongest lever HR has to reduce attrition.
 - Finding 2
 - Finding 3
 
@@ -171,6 +172,12 @@ The Power BI report contains the following pages:
 *To be updated after analysis is complete.*
 
 - Recommendation 1
+- Investigate overtime policies and workload distribution, particularly in 
+  teams with high overtime frequency.
+- Consider implementing overtime caps or additional staffing in roles 
+  requiring frequent overtime to reduce burnout-driven attrition.
+- Since attrition is broad-based rather than concentrated, retention 
+  strategies should be company-wide rather than department-specific.
 - Recommendation 2
 - Recommendation 3
 
