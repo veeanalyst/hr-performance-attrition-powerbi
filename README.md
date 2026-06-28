@@ -155,23 +155,35 @@ The Power BI report contains the following pages:
 ---
 
 ## Key Findings
-- Finding 1
-  - Attrition rate is consistent across department, job role, business travel, 
+- Attrition rate is consistent across department, job role, business travel, 
   and marital status (~14-17% in every category) — attrition is not isolated 
   to specific teams or groups.
 - Overtime is the dominant driver of attrition: 82.55% of all employees who 
   left were working overtime, compared to only 17.45% who weren't.
 - This suggests overtime — not job role, department, or personal 
   circumstances — is the strongest lever HR has to reduce attrition.
-- Finding 2
-- Finding 3
+- Job satisfaction is a strong predictor of attrition: employees who left 
+  the company had an average satisfaction score 0.76 points lower 
+  (on a 4-point scale) than those who stayed.
+- Performance ratings (avg 3.50) and job satisfaction (avg 2.50 overall) 
+  are otherwise consistent across departments and job roles.
+- Training frequency shows no measurable relationship with performance 
+  rating (0.00 difference between high and low training groups).
+- Overall, job satisfaction — not training, department, or role — appears 
+  to be the strongest internal signal of employee performance risk and 
+  retention risk in this dataset.
+
+## Overall Insight
+Two factors stand out as meaningful predictors in this dataset: 
+**overtime** (driving 82.55% of attritions) and **job satisfaction** 
+(0.76-point gap between those who stayed and left). Department, job role, 
+business travel, marital status, and training frequency show little to 
+no variation — suggesting HR interventions should focus on workload 
+management and employee engagement rather than team-specific programs.
 
 ---
 
 ## Recommendations
-*To be updated after analysis is complete.*
-
-- Recommendation 1
 - Investigate overtime policies and workload distribution, particularly in 
   teams with high overtime frequency.
 - Consider implementing overtime caps or additional staffing in roles 
