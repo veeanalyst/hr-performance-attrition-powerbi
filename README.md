@@ -158,6 +158,10 @@ The Power BI report contains the following pages:
 *To be updated after analysis is complete.*
 
 - Finding 1
+- Attrition rate is fairly consistent across departments and job roles (~15-16%), 
+  suggesting attrition is not isolated to specific teams.
+- 82.55% of all attritions came from employees who worked overtime — 
+  by far the strongest predictor of attrition in this dataset.
 - Finding 2
 - Finding 3
 
