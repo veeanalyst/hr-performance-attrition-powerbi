@@ -60,7 +60,7 @@ The raw dataset required several cleaning steps before analysis, including issue
 |---|---|
 | Removed empty rows | Deleted rows where all fields were blank |
 | Removed leading and trailing whitespaces | Formatted all the cells in each column using TRIM |
-| Removed invalid employee records | e.g 'employee_id' 12345
+| Removed invalid employee records | e.g. `employee_id = 12345` |
 | Replaced values | Fixed embedded spaces e.g. `E M P00015` → `EMP00015` |
 | Filtered invalid records | Removed rows with inconsistent or corrupt data |
 | Validated employee_id | Kept only records with exactly 8 characters |
@@ -158,7 +158,7 @@ All measures are stored in a dedicated `_Measures` table and numbered for easy n
 ## Dashboard Preview
 ![Overview](screenshots/screenshots_overview.png)
 ![Attrition Analysis](screenshots/screenshots_attrition_analysis.png)
-**Perfrmance & Satisfaction** 
+**Performance & Satisfaction**
 ![Performance & Satisfaction](screenshots/screenshots_performance_satisfaction.png)
 **Workforce Profile**
 ![Workforce Profile](screenshots/screenshots_workforce_profile.png)
