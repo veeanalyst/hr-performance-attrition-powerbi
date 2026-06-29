@@ -1,7 +1,7 @@
 # HR Employee Attrition & Performance Analysis | Power BI
 
 ![Power BI](https://img.shields.io/badge/Tool-Power%20BI-F2C811?style=flat&logo=powerbi&logoColor=black)
-![Dataset](https://img.shields.io/badge/Rows-49%2C977-blue)
+![Dataset](https://img.shields.io/badge/Rows-49%2C931-blue)
 ![Fields](https://img.shields.io/badge/Fields-20-green)
 ![Status](https://img.shields.io/badge/Status-Complete-success)
 
@@ -45,7 +45,7 @@ This project analyses HR employee attrition and performance data for nearly 50,0
 | `attrition_cost` | Estimated cost of attrition per employee |
 
 **Source:** HR Attrition Dirty Dataset
-**Rows:** 50,020 raw → 49,977 cleaned &nbsp;·&nbsp; **Fields:** 20
+**Rows:** 50,020 raw → 49,931 cleaned &nbsp;·&nbsp; **Fields:** 20
 
 ---
 
@@ -54,41 +54,22 @@ This project analyses HR employee attrition and performance data for nearly 50,0
 The raw dataset required several cleaning steps before analysis, including issues caught mid-analysis after charts surfaced abnormal values.
 
 | Step | Transformation Applied |
-
 |---|---|
-
 | Removed empty rows | Deleted rows where all fields were blank |
-
 | Removed leading and trailing whitespaces | Formatted all the cells in each column using TRIM |
-
 | Removed invalid employee records | e.g 'employee_id' 12345
-
 | Replaced values | Fixed embedded spaces e.g. `E M P00015` → `EMP00015` |
-
 | Filtered invalid records | Removed rows with inconsistent or corrupt data |
-
 | Validated employee_id | Kept only records with exactly 8 characters |
-
 | Removed duplicates | Based on `employee_id` column |
-
 | Replaced values | Based on 'attrition' column e.g 0=No, 1=Yes, Stayed=No, Left=Yes |
-
 | Removed Outlier values | Based on 'Age' and 'monthly_income' columns e.g 0, 999 '-200', '-3000' | 
-
 | Data type | Changed the columns to the correct data type |
 
-...
-
-- Identified and corrected inconsistent `business_travel` category values 
-
-  during analysis (discovered when attrition rates appeared abnormally high 
-
-  for one category — root cause was inconsistent text formatting)
+- Identified and corrected inconsistent `business_travel` category values during analysis (discovered when attrition rates appeared abnormally high for one category — root cause was inconsistent text formatting)
 
 **Original dataset:** 50,020 rows  
-
 **Clean dataset:** 49,931 rows  
-
 **Records removed:** 89  
 
 ---
@@ -156,7 +137,7 @@ CALCULATE(AVERAGE('HR_Attrition'[job_satisfaction]), 'HR_Attrition'[attrition] =
 ```
 
 All measures are stored in a dedicated `_Measures` table and numbered for easy navigation in the Fields pane:
-
+![Dax Measures](screenshots/screenshots_dax_measures.png).
 
 ---
 
