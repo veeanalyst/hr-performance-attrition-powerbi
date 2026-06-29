@@ -45,7 +45,10 @@ This project analyses HR employee attrition and performance data for nearly 50,0
 | `attrition_cost` | Estimated cost of attrition per employee |
 
 **Source:** HR Attrition Dirty Dataset
-**Rows:** 50,020 raw → 49,931 cleaned &nbsp;·&nbsp; **Fields:** 20
+
+**Rows:** 50,020 raw → 49,931 cleaned &nbsp;·&nbsp; 
+
+**Fields:** 20
 
 ---
 
@@ -155,7 +158,9 @@ All measures are stored in a dedicated `_Measures` table and numbered for easy n
 ## Dashboard Preview
 ![Overview](screenshots/screenshots_overview.png)
 ![Attrition Analysis](screenshots/screenshots_attrition_analysis.png)
+**Perfrmance & Satisfaction** 
 ![Performance & Satisfaction](screenshots/screenshots_performance_satisfaction.png)
+**Workforce Profile**
 ![Workforce Profile](screenshots/screenshots_workforce_profile.png)
 
 ---
