@@ -30,7 +30,7 @@ This project analyses HR employee attrition and performance data for 50,020 empl
 | `job_role` | Employee's specific role |
 | `gender` | Employee gender |
 | `monthly_income` | Monthly salary |
-| `job_level` | Seniority level (1–5) |
+| `job_level` | Seniority level (0–10) |
 | `years_at_company` | Total years with the company |
 | `years_in_role` | Years in current role |
 | `education_field` | Field of education |
@@ -153,6 +153,8 @@ The Power BI report contains the following pages:
 
 ![Performance & Satisfaction](screenshots/screenshots_performance_satisfaction.png)
 
+![Work Profile](screenshots/screenshots_workforce_profile.png)
+
 ---
 
 ## Key Findings
@@ -173,6 +175,17 @@ The Power BI report contains the following pages:
 - Overall, job satisfaction — not training, department, or role — appears 
   to be the strongest internal signal of employee performance risk and 
   retention risk in this dataset.
+## (Workforce Profile)
+- Average monthly income generally increases with job level, though the 
+  relationship isn't perfectly linear — job level 8 shows a notable dip 
+  in average income, even below level 0.
+- Age distribution is roughly bell-shaped, peaking between 25-55 years old, 
+  with fewer employees under 20 or over 60.
+- The donut chart shows job levels are evenly distributed (~10K employees, 
+  ~20% each, across the 5 most common levels), 
+  suggesting a flat-ish organizational structure with no single dominant tier.
+- Employees are spread fairly evenly across education fields — no single 
+  field dominates the workforce.
 
 ## Overall Insight
 Two factors stand out as meaningful predictors in this dataset: 
