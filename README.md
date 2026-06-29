@@ -1,23 +1,22 @@
 # HR Employee Attrition & Performance Analysis | Power BI
 
 ![Power BI](https://img.shields.io/badge/Tool-Power%20BI-F2C811?style=flat&logo=powerbi&logoColor=black)
-![Dataset](https://img.shields.io/badge/Rows-50%2C020-blue)
+![Dataset](https://img.shields.io/badge/Rows-49%2C977-blue)
 ![Fields](https://img.shields.io/badge/Fields-20-green)
-![Status](https://img.shields.io/badge/Status-In%20Progress-orange)
+![Status](https://img.shields.io/badge/Status-Complete-success)
 
 ## Overview
-This project analyses HR employee attrition and performance data for 50,020 employees across multiple departments. The goal is to identify the key drivers of employee attrition, measure workforce performance, and provide actionable recommendations to improve employee retention and productivity.
+This project analyses HR employee attrition and performance data for nearly 50,000 employees. The goal was to identify what actually drives attrition and underperformance — and to separate real signals from noise across department, role, demographics, training, and engagement.
 
 ---
 
 ## Business Questions
-- What is the overall attrition rate and which departments are most affected?
+- What is the overall attrition rate, and does it vary by department or job role?
 - Does overtime correlate with higher attrition?
-- Which job roles have the lowest performance ratings?
-- How does monthly income vary across job levels and departments?
-- Does work-life balance influence attrition and job satisfaction?
-- What is the total cost of attrition to the organisation?
-- Do employees who travel frequently show higher attrition rates?
+- Does job satisfaction predict attrition?
+- Does training frequency improve performance ratings?
+- How does compensation vary across job levels?
+- What does the overall workforce look like in terms of age, education, and seniority?
 
 ---
 
@@ -30,7 +29,7 @@ This project analyses HR employee attrition and performance data for 50,020 empl
 | `job_role` | Employee's specific role |
 | `gender` | Employee gender |
 | `monthly_income` | Monthly salary |
-| `job_level` | Seniority level (0–10) |
+| `job_level` | Seniority level (0–10 scale) |
 | `years_at_company` | Total years with the company |
 | `years_in_role` | Years in current role |
 | `education_field` | Field of education |
@@ -45,171 +44,170 @@ This project analyses HR employee attrition and performance data for 50,020 empl
 | `attrition` | Whether employee left the company (Yes/No) |
 | `attrition_cost` | Estimated cost of attrition per employee |
 
-**Source:** HR Attrition Dirty Dataset  
-**Rows:** 50,020 &nbsp;·&nbsp; **Fields:** 20  
+**Source:** HR Attrition Dirty Dataset
+**Rows:** 50,020 raw → 49,977 cleaned &nbsp;·&nbsp; **Fields:** 20
 
 ---
 
 ## Data Cleaning (Power Query)
 
-The raw dataset was cleaned in Power Query before loading into Power BI.
+The raw dataset required several cleaning steps before analysis, including issues caught mid-analysis after charts surfaced abnormal values.
 
 | Step | Transformation Applied |
+
 |---|---|
+
 | Removed empty rows | Deleted rows where all fields were blank |
+
 | Removed leading and trailing whitespaces | Formatted all the cells in each column using TRIM |
+
 | Removed invalid employee records | e.g 'employee_id' 12345
+
 | Replaced values | Fixed embedded spaces e.g. `E M P00015` → `EMP00015` |
+
 | Filtered invalid records | Removed rows with inconsistent or corrupt data |
+
 | Validated employee_id | Kept only records with exactly 8 characters |
+
 | Removed duplicates | Based on `employee_id` column |
+
 | Replaced values | Based on 'attrition' column e.g 0=No, 1=Yes, Stayed=No, Left=Yes |
+
 | Removed Outlier values | Based on 'Age' and 'monthly_income' columns e.g 0, 999 '-200', '-3000' | 
+
 | Data type | Changed the columns to the correct data type |
+
 ...
+
 - Identified and corrected inconsistent `business_travel` category values 
+
   during analysis (discovered when attrition rates appeared abnormally high 
+
   for one category — root cause was inconsistent text formatting)
 
 **Original dataset:** 50,020 rows  
-**Clean dataset:** 49,934 rows  
-**Records removed:** 86  
+
+**Clean dataset:** 49,931 rows  
+
+**Records removed:** 89  
 
 ---
 
 ## DAX Measures
-Key measures created in Power BI to support the analysis:
+All measures are stored in a dedicated `_Measures` table, numbered for consistent ordering in the Fields pane.
 
 ```dax
 -- 01 Total Employees
-Total Employees = COUNTROWS('hr_attrition')
+01 Total Employees = COUNTROWS('HR_Attrition')
 
--- 02 Total Attritions = 
-COUNTROWS(
-    FILTER('hr_attrition', 'hr_attrition'[attrition] = "Yes")
-)
+-- 02 Total Attritions
+02 Total Attritions = 
+COUNTROWS(FILTER('HR_Attrition', 'HR_Attrition'[attrition] = "Yes"))
 
 -- 03 Attrition Rate
-Attrition Rate = 
-DIVIDE(
-    COUNTROWS(FILTER('hr_attrition', 'hr_attrition'[attrition] = "Yes")),
-    COUNTROWS('hr_attrition'),
-    0
-)
+03 Attrition Rate = 
+DIVIDE([02 Total Attritions], [01 Total Employees], 0)
 
---04 Total Attrition Cost
-Total Attrition Cost = SUM('hr_attrition'[attrition_cost])
+-- 04 Total Attrition Cost
+04 Total Attrition Cost = SUM('HR_Attrition'[attrition_cost])
 
--- 05 Average Monthly Income
-Avg Monthly Income = AVERAGE('hr_attrition'[monthly_income])
+-- 05 Avg Monthly Income
+05 Avg Monthly Income = AVERAGE('HR_Attrition'[monthly_income])
 
--- 06 Average Performance Rating
-Avg Performance Rating = AVERAGE('hr_attrition'[performance_rating])
+-- 06 Avg Performance Rating
+06 Avg Performance Rating = AVERAGE('HR_Attrition'[performance_rating])
 
--- 07 Average Job Satisfaction
-Avg Job Satisfaction = AVERAGE('hr_attrition'[job_satisfaction])
+-- 07 Avg Job Satisfaction
+07 Avg Job Satisfaction = AVERAGE('HR_Attrition'[job_satisfaction])
 
 -- 08 Overtime Attrition Rate
-Overtime Attrition Rate = 
+08 Overtime Attrition Rate = 
+CALCULATE([03 Attrition Rate], 'HR_Attrition'[overtime] = "Yes")
+
+-- 09 Performance: High Training (4+ sessions)
+09 Performance High Training = 
 CALCULATE(
-    [Attrition Rate],
-    'hr_attrition'[overtime] = "Yes"
+    AVERAGE('HR_Attrition'[performance_rating]),
+    'HR_Attrition'[training_times_last_year] >= 4
 )
+
+-- 10 Performance: Low Training (1 or fewer sessions)
+10 Performance Low Training = 
+CALCULATE(
+    AVERAGE('HR_Attrition'[performance_rating]),
+    'HR_Attrition'[training_times_last_year] <= 1
+)
+
+-- 11 Training Performance Gap
+11 Training Performance Gap = 
+[09 Performance High Training] - [10 Performance Low Training]
+
+-- 12 Job Satisfaction: Stayed
+12 Satisfaction Stayed = 
+CALCULATE(AVERAGE('HR_Attrition'[job_satisfaction]), 'HR_Attrition'[attrition] = "No")
+
+-- 13 Job Satisfaction: Left
+13 Satisfaction Left = 
+CALCULATE(AVERAGE('HR_Attrition'[job_satisfaction]), 'HR_Attrition'[attrition] = "Yes")
+
+-- 14 Satisfaction Attrition Gap
+14 Satisfaction Attrition Gap = 
+[12 Satisfaction Stayed] - [13 Satisfaction Left]
 ```
-`_Measures`
 
-All measures are stored in a dedicated `_Measures` table and 
-numbered for easy navigation.
+All measures are stored in a dedicated `_Measures` table and numbered for easy navigation in the Fields pane:
 
-| # | Measure | Description |
-|---|---|---|
-| 01 | Total Employees | Count of all employees in the dataset |
-| 02 | Total Attritions | Count of employees who left the company |
-| 03 | Attrition Rate | Percentage of employees who left |
-| 04 | Total Attrition Cost | Sum of all attrition-related costs |
-| 05 | Avg Monthly Income | Average monthly salary across all employees |
-| 06 | Avg Performance Rating | Average performance rating (1–4 scale) |
-| 07 | Avg Job Satisfaction | Average job satisfaction score (1–4 scale) |
-| 08 | Overtime Attrition Rate | Attrition rate for employees working overtime |
+
 ---
-![DAX Measures](screenshots/screenshots_dax_measures.png)
 
 ## Dashboard Pages
-The Power BI report contains the following pages:
 
 | Page | Description |
 |---|---|
-| **Overview** | Total employees, attrition rate, cost of attrition, KPI cards |
-| **Attrition Analysis** | Attrition by department, job role, overtime, business travel |
-| **Performance & Satisfaction** | Performance ratings, job satisfaction, work-life balance scores |
-| **Workforce Profile** | Age distribution, income by job level, years at company |
+| **Overview** | Company-wide KPIs — total employees, attrition rate, attrition cost, avg income, employee gender split, workforce by department |
+| **Attrition Analysis** | Attrition rate broken down by department, job role, business travel, marital status, and overtime |
+| **Performance & Satisfaction** | Performance ratings, job satisfaction, work-life balance, training impact, and satisfaction vs attrition |
+| **Workforce Profile** | Age distribution, income by job level, education field breakdown, job level distribution |
 
 ---
 
 ## Dashboard Preview
 ![Overview](screenshots/screenshots_overview.png)
-
 ![Attrition Analysis](screenshots/screenshots_attrition_analysis.png)
-
 ![Performance & Satisfaction](screenshots/screenshots_performance_satisfaction.png)
-
-![Work Profile](screenshots/screenshots_workforce_profile.png)
+![Workforce Profile](screenshots/screenshots_workforce_profile.png)
 
 ---
 
 ## Key Findings
-- Attrition rate is consistent across department, job role, business travel, 
-  and marital status (~14-17% in every category) — attrition is not isolated 
-  to specific teams or groups.
-- Overtime is the dominant driver of attrition: 82.55% of all employees who 
-  left were working overtime, compared to only 17.45% who weren't.
-- This suggests overtime — not job role, department, or personal 
-  circumstances — is the strongest lever HR has to reduce attrition.
-- Job satisfaction is a strong predictor of attrition: employees who left 
-  the company had an average satisfaction score 0.76 points lower 
-  (on a 4-point scale) than those who stayed.
-- Performance ratings (avg 3.50) and job satisfaction (avg 2.50 overall) 
-  are otherwise consistent across departments and job roles.
-- Training frequency shows no measurable relationship with performance 
-  rating (0.00 difference between high and low training groups).
-- Overall, job satisfaction — not training, department, or role — appears 
-  to be the strongest internal signal of employee performance risk and 
-  retention risk in this dataset.
-## (Workforce Profile)
-- Average monthly income generally increases with job level, though the 
-  relationship isn't perfectly linear — job level 8 shows a notable dip 
-  in average income, even below level 0.
-- Age distribution is roughly bell-shaped, peaking between 25-55 years old, 
-  with fewer employees under 20 or over 60.
-- The donut chart shows job levels are evenly distributed (~10K employees, 
-  ~20% each, across the 5 most common levels), 
-  suggesting a flat-ish organizational structure with no single dominant tier.
-- Employees are spread fairly evenly across education fields — no single 
-  field dominates the workforce.
 
-## Overall Insight
-Two factors stand out as meaningful predictors in this dataset: 
-**overtime** (driving 82.55% of attritions) and **job satisfaction** 
-(0.76-point gap between those who stayed and left). Department, job role, 
-business travel, marital status, and training frequency show little to 
-no variation — suggesting HR interventions should focus on workload 
-management and employee engagement rather than team-specific programs.
+**Attrition**
+- Overall attrition rate is **16.33%**, with a total estimated attrition cost of **$203.48M**.
+- Attrition is **consistent across department, job role, business travel, and marital status** (roughly 14–17% in every category) — attrition is not isolated to any specific team or group.
+- **Overtime is the strongest driver of attrition**: 82.55% of all employees who left were working overtime, compared to just 17.45% who weren't.
+
+**Performance & Satisfaction**
+- Average performance rating (3.50/4) and average job satisfaction (2.50/4) are uniform across departments and job roles — no standout high or low performing group.
+- **Training frequency has no measurable effect on performance** — employees with 4+ training sessions scored the same on average as those with 1 or fewer (0.00 difference).
+- **Job satisfaction strongly predicts attrition**: employees who stayed had an average satisfaction score 0.76 points higher (on a 4-point scale) than those who left.
+
+**Workforce Profile**
+- Age distribution is roughly bell-shaped, peaking between 25–55 years old, with fewer employees under 20 or over 60.
+- Average monthly income generally rises with job level (0–10 scale).
+- Employees are spread fairly evenly across education fields, with no single field dominating the workforce.
+
+**Note on Job Level 8:** This level contains only 1 employee in the dataset (age 56, 33 years at the company), making its average income statistically unreliable — a sample size of 1 cannot represent a meaningful average. This data point was excluded from the income-by-job-level chart to avoid a misleading visual, but the underlying employee record was retained in the dataset.
 
 ---
 
 ## Recommendations
-- Investigate overtime policies and workload distribution, particularly in 
-  teams with high overtime frequency.
-- Consider implementing overtime caps or additional staffing in roles 
-  requiring frequent overtime to reduce burnout-driven attrition.
-- Since attrition is broad-based rather than concentrated, retention 
-  strategies should be company-wide rather than department-specific.
-- Recommendation 2
-- Recommendation 3
+- **Investigate overtime policy and workload distribution** — since overtime is the single strongest predictor of attrition, reducing excessive overtime (or compensating it better) is likely the highest-leverage retention lever available.
+- **Treat retention as a company-wide initiative, not a department-specific one** — since attrition is broad-based rather than concentrated in any team or role.
+- **Prioritise employee engagement and satisfaction programs over training investment** — training showed no measurable link to performance, while satisfaction showed a strong link to attrition.
 
 ---
 
 ## Tools Used
-- **Power BI Desktop** — data modelling, DAX, dashboard
-- **Power Query** — data cleaning and transformation
+- **Power BI Desktop** — data modelling, DAX, multi-page dashboard
+- **Power Query** — data cleaning and transformation, including mid-analysis corrections
 - **CSV** — raw data source (50,020 rows)
